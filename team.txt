@@ -1,6 +1,6 @@
 Név: Csodás inc. Retro Bar
 Téma: Retro Bisztro
 Szerepkörök:
-  - Lovász Botond: Tech Lead         ]
-  - Lupkovics Benedek: Content Lead  ] --- 9.A
-  - Habony Attila: Design Lead       ]
+  - Lovász Botond: Tech Lead        ]
+  - Lupkovics Benedek: Design Lead  ] --- 9.A
+  - Habony Attila: Content Lead     ]
