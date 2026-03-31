@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retro Bár — Budapest</title>
+
+  <!--
+    RETRO BÁR — index.html
+    Keresési kulcsok: #header #hero #stats #about #menu #featured #events #gallery #reservation #footer
+    JS effektek: data-scramble (scramble), data-pullup (letter pullup), data-tilt (3D tilt), data-magnetic (magnetic)
+  -->
+  <!-- Google Fonts: Playfair Display (display), Crimson Text (body), Special Elite (UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ZAJSZŰRŐ OVERLAY — CSS noise textúra, pozíció: fixed top -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- EGYÉNI KURZOR — .cursor a kis pont, .cursor-ring a lassabb gyűrű -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- SCROLL PROGRESS BAR — oldal tetején egy vékony arany csík -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- HEADER — fixed tetején, scrollra frosted glass-be vált -->
+  <header class="site-header" id="header" role="banner">
+    <a class="logo-mark" href="#">
+      <!-- Logó embléma — kör alakú, hover-re forog (CSS transition) -->
+      <div class="logo-emblem">
+        <img src="./retro.png" alt="Retro Bár logó">
+      </div>
+      <div class="logo-text-wrap">
+        <span class="logo-name">Retro Bár</span>
+        <span class="logo-sub">Budapest, 1972</span>
+      </div>
+    </a>
+
+    <nav role="navigation" aria-label="Főmenü">
+      <a href="#menu" class="nav-link">Menü</a>
+      <a href="#events" class="nav-link">Programok</a>
+      <a href="#gallery" class="nav-link">Galéria</a>
+      <!-- Ez a gomb magnetikus lesz (JS - magnetikusGomb()) -->
+      <a href="#reservation" class="nav-cta magnetic-btn" data-magnetic>Foglalás</a>
+    </nav>
+  </header>
+
+  <!-- HERO SZEKCIÓ -->
+  <section class="hero" id="hero" aria-label="Bevezető">
+
+    <!-- Aurora háttér — inspira-ui Aurora Background alapján
+         Forgó conic-gradient + blur, CSS animációkkal -->
+    <div class="aurora-bg" aria-hidden="true">
+      <div class="aurora-blob aurora-blob--1"></div>
+      <div class="aurora-blob aurora-blob--2"></div>
+      <div class="aurora-blob aurora-blob--3"></div>
+    </div>
+
+    <!-- Háttérkép réteggel — parallax scroll JS-ben -->
+    <div class="hero-photo" id="heroPhoto" aria-hidden="true"></div>
+    <div class="hero-photo-overlay" aria-hidden="true"></div>
+
+    <!-- Keret + sarkok — CSS border rétegek -->
+    <div class="hero-frame" aria-hidden="true"></div>
+    <span class="corner corner--tl" aria-hidden="true"></span>
+    <span class="corner corner--tr" aria-hidden="true"></span>
+    <span class="corner corner--bl" aria-hidden="true"></span>
+    <span class="corner corner--br" aria-hidden="true"></span>
+
+    <!-- Meteor részecskék — inspira-ui Meteors alapján
+         JS generálja dinamikusan (meteorok()) -->
+    <div class="meteors-container" id="meteorsContainer" aria-hidden="true"></div>
+
+    <!-- Hero fő tartalom -->
+    <div class="hero-content">
+
+      <!-- Felső badge — animált vonal -->
+      <div class="hero-eyebrow" aria-label="1972 óta">
+        <span class="eyebrow-line" aria-hidden="true"></span>
+        <span class="eyebrow-text">1972 óta</span>
+        <span class="eyebrow-line" aria-hidden="true"></span>
+      </div>
+
+      <!-- FŐ CÍM — JS scramble animáció indul rá (reactbits Encrypted Text)
+           data-scramble jelöli, hogy ezt kell scramble-ölni -->
+      <h1 class="hero-title">
+        <span class="hero-title__accent" data-scramble>Retro</span><br>
+        <span class="hero-title__plain" data-scramble>Bár</span>
+      </h1>
+
+      <!-- Alcím — typewriter effekt JS-ben -->
+      <p class="hero-subtitle" id="heroSubtitle" aria-live="polite"></p>
+
+      <div class="hero-divider" aria-hidden="true"></div>
+
+      <!-- Meta adatok (helyszín, nyitva, telefon) -->
+      <div class="hero-meta" role="list">
+        <div class="hero-meta__item" role="listitem">
+          <span class="hero-meta__label">Helyszín</span>
+          <span class="hero-meta__value">Budapest, VII. kerület</span>
+        </div>
+        <div class="hero-meta__sep" aria-hidden="true"></div>
+        <div class="hero-meta__item" role="listitem">
+          <span class="hero-meta__label">Nyitva</span>
+          <span class="hero-meta__value">Sze&ndash;Va 17:00&ndash;02:00</span>
+        </div>
+        <div class="hero-meta__sep" aria-hidden="true"></div>
+        <div class="hero-meta__item" role="listitem">
+          <span class="hero-meta__label">Telefon</span>
+          <span class="hero-meta__value">+36 1 234 5678</span>
+        </div>
+      </div>
+
+      <!-- Fő CTA gomb — magnetikus + gradient border beam (uiverse.io / inspira-ui) -->
+      <a href="#reservation" class="btn-hero magnetic-btn" data-magnetic aria-label="Asztalt foglalok">
+        <span class="btn-hero__text">Asztalt foglalok</span>
+        <!-- Border beam animáció rétege (inspira-ui Border Beam) -->
+        <span class="border-beam" aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <!-- Scroll jelző animáció alul -->
+    <div class="scroll-hint" aria-hidden="true">
+      <span class="scroll-hint__text">Görgess</span>
+      <span class="scroll-hint__line"></span>
+    </div>
+
+  </section>
+
+  <!-- STATS SÁV — számok felszámolása JS-ben (CountUp) -->
+  <div class="stats-bar" aria-label="Statisztikák">
+    <div class="stat-item reveal" aria-label="52 év tapasztalat">
+      <span class="stat-number" data-target="52" aria-live="polite">0</span>
+      <span class="stat-label">Év tapasztalat</span>
+    </div>
+    <div class="stat-divider" aria-hidden="true"></div>
+    <div class="stat-item reveal delay-1" aria-label="120 féle ital">
+      <span class="stat-number" data-target="120" aria-live="polite">0</span>
+      <span class="stat-label">Féle ital</span>
+    </div>
+    <div class="stat-divider" aria-hidden="true"></div>
+    <div class="stat-item reveal delay-2" aria-label="4 est hetente">
+      <span class="stat-number" data-target="4" aria-live="polite">0</span>
+      <span class="stat-label">Est hetente</span>
+    </div>
+    <div class="stat-divider" aria-hidden="true"></div>
+    <div class="stat-item reveal delay-3" aria-label="9 díj">
+      <span class="stat-number" data-target="9" aria-live="polite">0</span>
+      <span class="stat-label">Díj</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       RÓLUNK SZEKCIÓ — kép + szöveg, reveal-left / reveal-right
+       ============================================================ -->
+  <section class="about-section" aria-label="Rólunk">
+    <div class="about-img-wrap reveal-left">
+      <img
+        src="https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg?auto=compress&cs=tinysrgb&w=800&h=1067&fit=crop"
+        alt="Retro Bár belső tér, melegbarna hangulat"
+        class="about-img"
+        loading="lazy"
+      >
+      <!-- Elcsúsztatott keret effekt (CSS box-shadow réteg) -->
+      <div class="about-img-frame" aria-hidden="true"></div>
+      <!-- Arany badge, abszolút pozícionált jobb alsó sarokban -->
+      <div class="about-badge" aria-hidden="true">
+        <span class="about-badge__year">52</span>
+        <span class="about-badge__label">év</span>
+      </div>
+    </div>
+
+    <div class="about-content reveal-right">
+      <!-- Section eyebrow — kis felső label -->
+      <p class="section-eyebrow">Rólunk</p>
+
+      <!-- Letter pullup cím — JS feldarabolja és betűnként animálja
+           (inspira-ui Letter Pullup) -->
+      <h2 class="section-title letter-pullup" data-pullup>
+        Ahol az idő <em>másképp telik</em>
+      </h2>
+
+      <p class="about-text">
+        1972-ben nyitottuk meg kapuinkat a pesti éjszakában, egy régi bérház pincehelyiségén. Akkor még nem tudtuk, hogy ez a hely több generáció otthona lesz.
+      </p>
+      <p class="about-text">
+        Kézzel válogatott italok, antik bútorok, élőzene szerdától szombatig. Nálunk minden pohárnak története van.
+      </p>
+      <p class="about-sig">— Kovács Péter, alapító</p>
+    </div>
+  </section>
+
+  <!-- MENÜ SZEKCIÓ -->
+  <section class="menu-section" id="menu" aria-label="Étlap és itallap">
+
+    <div class="section-header reveal">
+      <p class="section-eyebrow" style="justify-content:center;">Kínálatunk</p>
+      <h2 class="section-title letter-pullup" data-pullup>
+        Italok & <em>Falatok</em>
+      </h2>
+      <p class="section-sub">Minden alapanyag gondosan válogatott, minden recept időtálló</p>
+    </div>
+
+    <!-- Tab navigáció -->
+    <div class="menu-tabs" role="tablist" aria-label="Menü kategóriák">
+      <button class="menu-tab active" data-tab="drinks" role="tab" aria-selected="true" aria-controls="tab-drinks">Koktélok</button>
+      <button class="menu-tab" data-tab="food" role="tab" aria-selected="false" aria-controls="tab-food">Falatok</button>
+      <button class="menu-tab" data-tab="spirits" role="tab" aria-selected="false" aria-controls="tab-spirits">Tömény</button>
+    </div>
+
+    <!-- ---- KOKTÉLOK ---- -->
+    <div class="menu-panel active" id="tab-drinks" role="tabpanel">
+
+      <!-- data-tilt: JS 3D tilt effekt (reactbits)
+           class="spotlight-card": JS spotlight hover (inspira-ui) -->
+      <article class="menu-card spotlight-card" data-tilt aria-label="Old Fashioned koktél">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/4762719/pexels-photo-4762719.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Old Fashioned koktél" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Klasszikus</span>
+          <h3 class="menu-card__name">Old Fashioned</h3>
+          <p class="menu-card__desc">Bourbon, angostura bitters, kandiscukor, narancs</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">2800 <small>Ft</small></span>
+            <span class="menu-card__badge">Ház ajánlat</span>
+          </div>
+        </div>
+        <!-- Spotlight overlay réteg — JS mousemove-ra mozgatja (inspira-ui Card Spotlight) -->
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Negroni koktél">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/1304540/pexels-photo-1304540.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Negroni koktél" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Aperitif</span>
+          <h3 class="menu-card__name">Negroni</h3>
+          <p class="menu-card__desc">Gin, Campari, édes vermut, narancs héj</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">2600 <small>Ft</small></span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Moscow Mule koktél">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/34875052/pexels-photo-34875052.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Moscow Mule koktél" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Frissítő</span>
+          <h3 class="menu-card__name">Moscow Mule</h3>
+          <p class="menu-card__desc">Vodka, gyömbérsör, lime, friss menta</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">2400 <small>Ft</small></span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Aperol Spritz koktél">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/1280364/pexels-photo-1280364.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Aperol Spritz koktél" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Nyári</span>
+          <h3 class="menu-card__name">Aperol Spritz</h3>
+          <p class="menu-card__desc">Aperol, prosecco, szóda, narancs szelet</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">2200 <small>Ft</small></span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+    </div>
+
+    <!-- ---- FALATOK ---- -->
+    <div class="menu-panel" id="tab-food" role="tabpanel">
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Hideg tál 2 főre">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/8775044/pexels-photo-8775044.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Hideg tál sajtokkal, felvágottakkal" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Megosztós</span>
+          <h3 class="menu-card__name">Hideg Tál</h3>
+          <p class="menu-card__desc">Válogatott sajtok, felvágottak, savanyúságok, kézműves kenyér</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">4200 <small>Ft</small></span>
+            <span class="menu-card__badge">2 főre</span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Bruschetta Trio">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/10313343/pexels-photo-10313343.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Bruschetta trio variációk" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Könnyű</span>
+          <h3 class="menu-card__name">Bruschetta Trio</h3>
+          <p class="menu-card__desc">Paradicsom, pestó, ricotta variációk friss bazsalikommal</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">1800 <small>Ft</small></span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Szarvasgomba sültkrumpli">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/2962450/pexels-photo-2962450.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Szarvasgomba sültkrumpli parmezánnal" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Snack</span>
+          <h3 class="menu-card__name">Szarvasgomba Sült Krumpli</h3>
+          <p class="menu-card__desc">Friss sültkrumpli, szarvasgomba olaj, parmezán, rozmaring</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">2100 <small>Ft</small></span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Sajttál dióval">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/4087609/pexels-photo-4087609.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Válogatott sajttál dióval és dzsemmel" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Prémium</span>
+          <h3 class="menu-card__name">Sajttál</h3>
+          <p class="menu-card__desc">Válogatott európai sajtok dióval és házi dzsemmel</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">3600 <small>Ft</small></span>
+            <span class="menu-card__badge">Szezonális</span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+    </div>
+
+    <!-- ---- TÖMÉNY ---- -->
+    <div class="menu-panel" id="tab-spirits" role="tabpanel">
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Glenfarclas 15 whisky">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/13149907/pexels-photo-13149907.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Glenfarclas 15 éves whisky" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Scotch</span>
+          <h3 class="menu-card__name">Glenfarclas 15</h3>
+          <p class="menu-card__desc">Skót single malt, sherry hordóban érlelve, 46%</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">3400 <small>Ft</small></span>
+            <span class="menu-card__badge">Ritka</span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Ron Zacapa 23 rum">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/7254755/pexels-photo-7254755.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Ron Zacapa 23 éves rum" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Karib</span>
+          <h3 class="menu-card__name">Ron Zacapa 23</h3>
+          <p class="menu-card__desc">Guatemala rum, 6-23 éves blend, karamell, vanília</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">3200 <small>Ft</small></span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Hennessy VS cognac">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/7254446/pexels-photo-7254446.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Hennessy VS cognac" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">Francia</span>
+          <h3 class="menu-card__name">Hennessy VS</h3>
+          <p class="menu-card__desc">Klasszikus cognac, szilva, aszalt gyümölcs, fűszeres tölgy</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">2800 <small>Ft</small></span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+      <article class="menu-card spotlight-card" data-tilt aria-label="Hendrick's Gin">
+        <div class="menu-card__img-wrap">
+          <img src="https://images.pexels.com/photos/225236/pexels-photo-225236.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Hendrick's Gin üveg" loading="lazy">
+        </div>
+        <div class="menu-card__body">
+          <span class="menu-card__tag">London Dry</span>
+          <h3 class="menu-card__name">Hendrick's Gin</h3>
+          <p class="menu-card__desc">Skót gin, uborka és rózsa botanikával, 41.4%</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__price">2600 <small>Ft</small></span>
+          </div>
+        </div>
+        <div class="spotlight-overlay" aria-hidden="true"></div>
+      </article>
+
+    </div>
+
+  </section>
+
+  <!-- KIEMELT SZEKCIÓ — "1972" házi koktél -->
+  <section class="featured-section" aria-label="Ház különlegessége">
+    <!-- Háttérkép réteg -->
+    <div class="featured-photo" aria-hidden="true"></div>
+    <div class="featured-overlay" aria-hidden="true"></div>
+
+    <!-- Border Beam — forgó conic-gradient keret (inspira-ui Border Beam) -->
+    <div class="featured-beam-wrap" aria-hidden="true">
+      <div class="featured-beam"></div>
+    </div>
+
+    <div class="featured-content reveal-left">
+      <div class="featured-ornament" aria-hidden="true">
+        <span class="ornament-line"></span>
+        <span class="ornament-text">Különlegesség</span>
+      </div>
+      <h2 class="featured-title letter-pullup" data-pullup>
+        A Ház <em>Koktélja</em>
+      </h2>
+      <p class="featured-text">
+        Az "1972" koktélunkat az alapítás évéről neveztük el. Bourbon, házi gesztenyeszirup, angostura és egy csipet tengeri só. Csak nálunk.
+      </p>
+      <ul class="featured-list" aria-label="Összetevők">
+        <li>Buffalo Trace Bourbon, 4 cl</li>
+        <li>Házi gesztenyeszirup, 2 cl</li>
+        <li>Angostura bitters, 2 dash</li>
+        <li>Füstölt tengeri só, szervírozási kő</li>
+      </ul>
+
+      <!-- Gradient Button — inspira-ui Gradient Button / uiverse.io animált gomb -->
+      <a href="#menu" class="btn-gradient magnetic-btn" data-magnetic aria-label="Teljes menü megtekintése">
+        <span class="btn-gradient__inner">Teljes menü</span>
+        <!-- Forgó conic-gradient határ (inspira-ui Gradient Button) -->
+        <span class="btn-gradient__border" aria-hidden="true"></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- PROGRAMOK SZEKCIÓ — heti estek -->
+  <section class="events-section" id="events" aria-label="Heti programok">
+
+    <div class="section-header reveal">
+      <p class="section-eyebrow" style="justify-content:center;">Minden héten</p>
+      <h2 class="section-title letter-pullup" data-pullup>
+        Esti <em>Programok</em>
+      </h2>
+      <p class="section-sub">Élőzene, DJ estek, kóstolók — négy napon át</p>
+    </div>
+
+    <div class="events-grid">
+
+      <article class="event-card reveal delay-1" aria-label="Jazz éjszaka, szerda">
+        <!-- Nagy háttér napcikk, csak dekor -->
+        <span class="event-card__day" aria-hidden="true">Sze</span>
+        <p class="event-card__tag">Szerda</p>
+        <h3 class="event-card__title">Jazz Éjszaka</h3>
+        <p class="event-card__desc">Helyi jazz kvartett játszik a bárban. Félhomály, jó ital, tiszta hang.</p>
+        <p class="event-card__time">20:00 &ndash; 23:00</p>
+        <!-- Glow border — CSS gradient border animáció (inspira-ui Glow Border) -->
+        <div class="event-card__glow" aria-hidden="true"></div>
+      </article>
+
+      <article class="event-card reveal delay-2" aria-label="Whisky kóstoló, csütörtök">
+        <span class="event-card__day" aria-hidden="true">Csü</span>
+        <p class="event-card__tag">Csütörtök</p>
+        <h3 class="event-card__title">Whisky Kóstoló</h3>
+        <p class="event-card__desc">Havi témával vezérelt kóstolósorozat. Előzetes regisztráció szükséges.</p>
+        <p class="event-card__time">19:00 &ndash; 21:30</p>
+        <div class="event-card__glow" aria-hidden="true"></div>
+      </article>
+
+      <article class="event-card reveal delay-3" aria-label="Retro DJ est, péntek">
+        <span class="event-card__day" aria-hidden="true">Pén</span>
+        <p class="event-card__tag">Péntek</p>
+        <h3 class="event-card__title">Retro DJ Est</h3>
+        <p class="event-card__desc">60-as, 70-es évek hangjai egy modern bárkörnyezetben. Nyitott tánctér.</p>
+        <p class="event-card__time">21:00 &ndash; 02:00</p>
+        <div class="event-card__glow" aria-hidden="true"></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- GALÉRIA — expandable hover (inspira-ui Expandable Gallery) -->
+  <section class="gallery-section" id="gallery" aria-label="Képgaléria">
+
+    <div class="gallery-header reveal">
+      <p class="section-eyebrow" style="justify-content:center;">Nálunk</p>
+      <h2 class="section-title letter-pullup" data-pullup>
+        Hangulat <em>&</em> Pillanatok
+      </h2>
+    </div>
+
+    <!-- Expandable Gallery — hover-re tágul (inspira-ui Expandable Gallery) -->
+    <div class="gallery-strip" role="list" aria-label="Galéria képek">
+
+      <div class="gallery-item" role="listitem" aria-label="Bár belső">
+        <img src="https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg?auto=compress&cs=tinysrgb&w=800&h=380&fit=crop" alt="Retro Bár belső tér, melegfényű lámpasor" loading="lazy">
+        <div class="gallery-item__label">Bár Belső</div>
+      </div>
+
+      <div class="gallery-item" role="listitem" aria-label="Old Fashioned">
+        <img src="https://images.pexels.com/photos/4762719/pexels-photo-4762719.jpeg?auto=compress&cs=tinysrgb&w=800&h=380&fit=crop" alt="Old Fashioned koktél jeges pohárban" loading="lazy">
+        <div class="gallery-item__label">Old Fashioned</div>
+      </div>
+
+      <div class="gallery-item" role="listitem" aria-label="Hideg tál">
+        <img src="https://images.pexels.com/photos/8775044/pexels-photo-8775044.jpeg?auto=compress&cs=tinysrgb&w=600&h=450&fit=crop" alt="Hideg tál sajtokkal" loading="lazy">
+        <div class="gallery-item__label">Hideg Tál</div>
+      </div>
+
+      <div class="gallery-item" role="listitem" aria-label="Borok">
+        <img src="https://images.pexels.com/photos/1304540/pexels-photo-1304540.jpeg?auto=compress&cs=tinysrgb&w=600&h=380&fit=crop" alt="Válogatott borok, borospoharak" loading="lazy">
+        <div class="gallery-item__label">Borok</div>
+      </div>
+
+      <div class="gallery-item" role="listitem" aria-label="Esti hangulat">
+        <img src="https://images.pexels.com/photos/30691575/pexels-photo-30691575.jpeg?auto=compress&cs=tinysrgb&w=600&h=380&fit=crop" alt="Bár esti hangulata, gyertyafény" loading="lazy">
+        <div class="gallery-item__label">Esti Hangulat</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOGLALÁS SZEKCIÓ — form + nyitvatartás -->
+  <section class="reservation-section" id="reservation" aria-label="Asztalfoglalás">
+
+    <div class="reservation-info reveal-left">
+      <p class="section-eyebrow">Foglaláskérés</p>
+      <h2 class="reservation-title letter-pullup" data-pullup>
+        Várjuk <em>Önt</em>
+      </h2>
+      <p class="reservation-text">
+        Asztalt előre is foglalhat. Nagy társaságoknak (8+ fő) privát termet tudunk biztosítani. Különleges alkalmakra kérjen egyedi ajánlatot.
+      </p>
+
+      <!-- Nyitvatartás tábla -->
+      <div class="hours-card" aria-label="Nyitvatartás">
+        <p class="hours-card__title">Nyitvatartás</p>
+        <div class="hours-row">
+          <span>Hétfő &ndash; Kedd</span>
+          <span class="hours-closed">Zárva</span>
+        </div>
+        <div class="hours-row">
+          <span>Szerda &ndash; Csütörtök</span>
+          <span class="hours-open">17:00 &ndash; 00:00</span>
+        </div>
+        <div class="hours-row">
+          <span>Péntek &ndash; Szombat</span>
+          <span class="hours-open">17:00 &ndash; 02:00</span>
+        </div>
+        <div class="hours-row">
+          <span>Vasárnap</span>
+          <span class="hours-open">16:00 &ndash; 23:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Foglalás form -->
+    <div class="reservation-form reveal-right">
+      <h3 class="form-title">Asztalfoglalás</h3>
+
+      <!-- Animált underline inputok (uiverse.io Input stílusból átvéve) -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="lastName">Vezéknév</label>
+          <input type="text" id="lastName" class="retro-input" placeholder="Kovács" autocomplete="family-name">
+          <span class="input-line" aria-hidden="true"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="firstName">Keresztnév</label>
+          <input type="text" id="firstName" class="retro-input" placeholder="Péter" autocomplete="given-name">
+          <span class="input-line" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="resDate">Dátum</label>
+          <input type="date" id="resDate" class="retro-input" autocomplete="off">
+          <span class="input-line" aria-hidden="true"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="guests">Vendégek száma</label>
+          <input type="number" id="guests" class="retro-input" placeholder="2" min="1" max="20" autocomplete="off">
+          <span class="input-line" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email</label>
+        <input type="email" id="email" class="retro-input" placeholder="pelda@email.hu" autocomplete="email">
+        <span class="input-line" aria-hidden="true"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="note">Megjegyzés <span class="form-optional">(opcionális)</span></label>
+        <input type="text" id="note" class="retro-input" placeholder="Különleges alkalom, ételallergia..." autocomplete="off">
+        <span class="input-line" aria-hidden="true"></span>
+      </div>
+
+      <!-- Glowing Submit Button — uiverse.io glow button alapján -->
+      <button type="button" class="btn-glow magnetic-btn" data-magnetic id="submitBtn" aria-label="Foglalás elküldése">
+        <span class="btn-glow__text">Foglalás Küldése</span>
+        <span class="btn-glow__glow" aria-hidden="true"></span>
+      </button>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       FOOTER — egyszerű, arány + kontakt
+       ============================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="logo-emblem logo-emblem--sm">
+            <img src="./retro.png" alt="Retro Bár logó">
+          </div>
+          <span class="logo-name">Retro Bár</span>
+        </div>
+        <p class="footer-tagline">
+          Öt évtizede töltjük meg a pesti éjszakát melegséggel, jó zenével és még jobb italokkal.
+        </p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigáció">
+        <p class="footer-col-title">Navigáció</p>
+        <ul>
+          <li><a href="#menu">Menü</a></li>
+          <li><a href="#events">Programok</a></li>
+          <li><a href="#gallery">Galéria</a></li>
+          <li><a href="#reservation">Foglalás</a></li>
+        </ul>
+      </nav>
+
+      <address class="footer-contact">
+        <p class="footer-col-title">Elérhetőség</p>
+        <p>Budapest, VII. kerület<br>Dohány utca 42.</p>
+        <p><a href="tel:+3612345678">+36 1 234 5678</a></p>
+        <p><a href="mailto:info@retrobar.hu">info@retrobar.hu</a></p>
+      </address>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2024 Retro Bár Budapest &mdash; Minden jog fenntartva</p>
+      <p class="footer-wordmark">Retro Bár</p>
+    </div>
+  </footer>
+
+  <!-- JS fájl a végén — DOM már betöltve mire fut -->
+  <script src="script.js"></script>
+
+</body>
+</html>
