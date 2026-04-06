@@ -33,17 +33,20 @@ function egyeniKurzor() {
     egerX = e.clientX;
     egerY = e.clientY;
 
-    // Azonnali pont
-    kursorPont.style.left = `${egerX}px`;
-    kursorPont.style.top  = `${egerY}px`;
+    // Azonnali pont — transform, nem left/top (GPU composited, no layout)
+    kursorPont.style.transform = `translate(${egerX - 5}px, ${egerY - 5}px)`;
   });
 
   // rAF loop: gyűrű lassabban követi (lerp faktor: 0.12)
   rafKor.add(() => {
-    gyuruX += (egerX - gyuruX) * 0.12;
-    gyuruY += (egerY - gyuruY) * 0.12;
-    kursorGyuru.style.left = `${gyuruX}px`;
-    kursorGyuru.style.top  = `${gyuruY}px`;
+    const dx = egerX - gyuruX;
+    const dy = egerY - gyuruY;
+    // Ha elég közel van, ne számolj feleslegesen
+    if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+      gyuruX += dx * 0.12;
+      gyuruY += dy * 0.12;
+      kursorGyuru.style.transform = `translate(${gyuruX - 19}px, ${gyuruY - 19}px)`;
+    }
   });
 
   // Hover állapot: linkek/gombok felett nagyobb kurzor
@@ -349,16 +352,22 @@ function spotlightKartyak() {
   if (!kartyak.length) return;
 
   kartyak.forEach(kartya => {
+    let pending = false;
     kartya.addEventListener('mousemove', (e) => {
-      const kozpont = kartya.getBoundingClientRect();
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        const kozpont = kartya.getBoundingClientRect();
 
-      // Pozíció a kártya belsejéhez képest (%-ban)
-      const x = ((e.clientX - kozpont.left) / kozpont.width)  * 100;
-      const y = ((e.clientY - kozpont.top)  / kozpont.height) * 100;
+        // Pozíció a kártya belsejéhez képest (%-ban)
+        const x = ((e.clientX - kozpont.left) / kozpont.width)  * 100;
+        const y = ((e.clientY - kozpont.top)  / kozpont.height) * 100;
 
-      // CSS custom property frissítése — CSS olvasni fogja
-      kartya.style.setProperty('--x', `${x}%`);
-      kartya.style.setProperty('--y', `${y}%`);
+        // CSS custom property frissítése — CSS olvasni fogja
+        kartya.style.setProperty('--x', `${x}%`);
+        kartya.style.setProperty('--y', `${y}%`);
+        pending = false;
+      });
     });
   });
 }
@@ -372,24 +381,30 @@ function tiltKartyak() {
   const TILT_ALAP = 600; // perspective px
 
   kartyak.forEach(kartya => {
+    let pending = false;
     kartya.addEventListener('mousemove', (e) => {
-      const kozpont = kartya.getBoundingClientRect();
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        const kozpont = kartya.getBoundingClientRect();
 
-      // -0.5 és 0.5 közötti értékek
-      const relX = (e.clientX - kozpont.left) / kozpont.width  - 0.5;
-      const relY = (e.clientY - kozpont.top)  / kozpont.height - 0.5;
+        // -0.5 és 0.5 közötti értékek
+        const relX = (e.clientX - kozpont.left) / kozpont.width  - 0.5;
+        const relY = (e.clientY - kozpont.top)  / kozpont.height - 0.5;
 
-      // rotateY: vízszintes tengely körül (bal-jobb dőlés)
-      // rotateX: függőleges tengely körül (fel-le dőlés)
-      const forgásY =  relX * TILT_MAX;
-      const forgásX = -relY * TILT_MAX;
+        // rotateY: vízszintes tengely körül (bal-jobb dőlés)
+        // rotateX: függőleges tengely körül (fel-le dőlés)
+        const forgásY =  relX * TILT_MAX;
+        const forgásX = -relY * TILT_MAX;
 
-      kartya.style.transform = `
-        perspective(${TILT_ALAP}px)
-        rotateX(${forgásX}deg)
-        rotateY(${forgásY}deg)
-        scale3d(1.02, 1.02, 1.02)
-      `;
+        kartya.style.transform = `
+          perspective(${TILT_ALAP}px)
+          rotateX(${forgásX}deg)
+          rotateY(${forgásY}deg)
+          scale3d(1.02, 1.02, 1.02)
+        `;
+        pending = false;
+      });
     });
 
     // Visszaáll alapállapotba amikor az egér elhagyja
@@ -413,19 +428,25 @@ function magnetikusGombok() {
   const EROTETERO = 0.4; // 0-1 között — mennyire erős a vonzás
 
   gombok.forEach(gomb => {
+    let pending = false;
     gomb.addEventListener('mousemove', (e) => {
-      const kozpont = gomb.getBoundingClientRect();
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        const kozpont = gomb.getBoundingClientRect();
 
-      // Kártya közepéhez képest
-      const kp = {
-        x: kozpont.left + kozpont.width  / 2,
-        y: kozpont.top  + kozpont.height / 2,
-      };
+        // Kártya közepéhez képest
+        const kp = {
+          x: kozpont.left + kozpont.width  / 2,
+          y: kozpont.top  + kozpont.height / 2,
+        };
 
-      const eltX = (e.clientX - kp.x) * EROTETERO;
-      const eltY = (e.clientY - kp.y) * EROTETERO;
+        const eltX = (e.clientX - kp.x) * EROTETERO;
+        const eltY = (e.clientY - kp.y) * EROTETERO;
 
-      gomb.style.transform = `translate(${eltX}px, ${eltY}px)`;
+        gomb.style.transform = `translate(${eltX}px, ${eltY}px)`;
+        pending = false;
+      });
     });
 
     gomb.addEventListener('mouseleave', () => {
@@ -498,14 +519,20 @@ function glowKartyak() {
   if (!kartyak.length) return;
 
   kartyak.forEach(kartya => {
+    let pending = false;
     kartya.addEventListener('mousemove', (e) => {
-      const kozpont = kartya.getBoundingClientRect();
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        const kozpont = kartya.getBoundingClientRect();
 
-      const x = ((e.clientX - kozpont.left) / kozpont.width)  * 100;
-      const y = ((e.clientY - kozpont.top)  / kozpont.height) * 100;
+        const x = ((e.clientX - kozpont.left) / kozpont.width)  * 100;
+        const y = ((e.clientY - kozpont.top)  / kozpont.height) * 100;
 
-      kartya.style.setProperty('--gx', `${x}%`);
-      kartya.style.setProperty('--gy', `${y}%`);
+        kartya.style.setProperty('--gx', `${x}%`);
+        kartya.style.setProperty('--gy', `${y}%`);
+        pending = false;
+      });
     });
   });
 }
