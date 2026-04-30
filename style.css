@@ -1,29 +1,23 @@
 :root {
-  /* Zöld paletta */
   --olive:          #2e3a1f;
   --olive-mid:      #3d4e28;
   --olive-light:    #4f6233;
 
-  /* Arany paletta */
   --gold:           #c9a84c;
   --gold-light:     #e0c06a;
   --gold-dim:       #8a6a28;
   --gold-glow:      rgba(201, 168, 76, 0.35);
 
-  /* Bronz */
   --bronze:         #a0693a;
   --bronze-light:   #c08050;
 
-  /* Szöveg */
   --cream:          #f5edd8;
   --cream-dim:      #ddd0b0;
 
-  /* Sötét háttér */
   --ink:            #1a1a0e;
   --ink-mid:        #12120a;
   --ink-deep:       #0c0c07;
 
-  /* Animáció timing — egységes easing */
   --ease-out:       cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -36,7 +30,6 @@
 
 html {
   scroll-behavior: smooth;
-  /* Saját scrollbar — nagyon szűk, arany tónusban */
   scrollbar-width: thin;
   scrollbar-color: var(--gold-dim) var(--ink-deep);
 }
@@ -51,18 +44,16 @@ body {
   font-family:  'Crimson Text', Georgia, serif;
   min-height:   100vh;
   overflow-x:   hidden;
-  /* Elrejti az alapértelmezett kurzort — egyéni kurzort JS kezeli */
   cursor:       none;
 }
 
-/* Linkeken, gombokon is custom kurzor */
 a, button, [data-magnetic] { cursor: none; }
 
 .noise-overlay {
   position:        fixed;
   inset:           0;
   pointer-events:  none;
-  z-index:         200;  /* mindenen felül, de pointer-events: none = nem zavar */
+  z-index:         200;
   opacity:         0.3;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
   background-size: 200px 200px;
@@ -97,7 +88,6 @@ a, button, [data-magnetic] { cursor: none; }
   will-change:      transform;
 }
 
-/* Hover állapot — kicsit nagyobb, érezni hogy interaktív */
 body.cursor-hover .cursor      { width: 16px; height: 16px; }
 body.cursor-hover .cursor-ring { width: 56px; height: 56px; opacity: 0.4; }
 
@@ -126,7 +116,6 @@ body.cursor-hover .cursor-ring { width: 56px; height: 56px; opacity: 0.4; }
                backdrop-filter 0.4s;
 }
 
-/* Scrolled állapot — frosted glass (JS adja hozzá .scrolled-t) */
 .site-header.scrolled {
   padding:         16px 60px;
   background:      rgba(18, 18, 10, 0.8);
@@ -135,7 +124,6 @@ body.cursor-hover .cursor-ring { width: 56px; height: 56px; opacity: 0.4; }
   border-bottom:   1px solid rgba(201, 168, 76, 0.12);
 }
 
-/* Logo — flex sor */
 .logo-mark {
   display:       flex;
   align-items:   center;
@@ -153,7 +141,6 @@ body.cursor-hover .cursor-ring { width: 56px; height: 56px; opacity: 0.4; }
   transition:    transform 0.5s var(--ease-spring), border-color 0.3s;
 }
 
-/* Hover-re forog a logo embléma */
 .logo-mark:hover .logo-emblem { transform: rotate(20deg); border-color: var(--gold); }
 
 .logo-emblem img {
@@ -185,7 +172,6 @@ body.cursor-hover .cursor-ring { width: 56px; height: 56px; opacity: 0.4; }
   margin-top:    2px;
 }
 
-/* Nav linkek */
 nav { display: flex; gap: 36px; align-items: center; }
 
 .nav-link {
@@ -199,7 +185,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   transition:     color 0.2s;
 }
 
-/* Aláhúzás animáció nav linkeken */
 .nav-link::after {
   content:          '';
   position:         absolute;
@@ -214,7 +199,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 .nav-link:hover          { color: var(--gold); }
 .nav-link:hover::after   { transform: scaleX(1); }
 
-/* Nav CTA gomb */
 .nav-cta {
   padding:        9px 22px;
   border:         1px solid rgba(201, 168, 76, 0.6);
@@ -270,7 +254,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   will-change:     transform;
 }
 
-/* Blob 1 — olajzöld, lassú óramutató irányú forgás */
 .aurora-blob--1 {
   width:      70%;
   height:     70%;
@@ -279,7 +262,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   animation:  auroraSpin1 18s linear infinite;
 }
 
-/* Blob 2 — arany, közepes sebesség, ellenkező irány */
 .aurora-blob--2 {
   width:      55%;
   height:     55%;
@@ -288,7 +270,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   animation:  auroraSpin2 24s linear infinite reverse;
 }
 
-/* Blob 3 — bronz, gyors, más origóból */
 .aurora-blob--3 {
   width:      45%;
   height:     45%;
@@ -366,7 +347,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   pointer-events: none;
 }
 
-/* Minden meteor egy divként generálódik JS-ben */
 .meteor {
   position:         absolute;
   top:              -10px;
@@ -391,7 +371,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   z-index:    5;
 }
 
-/* Eyebrow — kis felső badge vonalakkal */
 .hero-eyebrow {
   font-family:    'Special Elite', serif;
   font-size:      11px;
@@ -437,7 +416,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 .hero-title__accent { color: var(--gold); display: inline-block; }
 .hero-title__plain  { display: inline-block; }
 
-/* Alcím typewriter */
 .hero-subtitle {
   font-family:    'Special Elite', serif;
   font-size:      clamp(13px, 2vw, 20px);
@@ -445,14 +423,13 @@ nav { display: flex; gap: 36px; align-items: center; }
   text-transform: uppercase;
   color:          var(--bronze-light);
   margin-bottom:  44px;
-  min-height:     1.5em;  /* Typewriter effekthez — ne ugráljon a layout */
+  min-height:     1.5em;
 
   opacity:   0;
   transform: translateY(16px);
   animation: heroFadeUp 0.8s 0.5s var(--ease-out) forwards;
 }
 
-/* Typewriter kurzor villogás */
 .hero-subtitle::after {
   content:   '|';
   color:     var(--gold);
@@ -473,7 +450,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   animation:    heroFadeUp 0.8s 0.65s var(--ease-out) forwards;
 }
 
-/* Meta sor (helyszín, nyitva, telefon) */
 .hero-meta {
   display:         flex;
   align-items:     center;
@@ -531,7 +507,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   animation: heroFadeUp 0.8s 0.9s var(--ease-out) forwards;
 }
 
-/* Statikus belső border */
 .btn-hero::before {
   content:    '';
   position:   absolute;
@@ -539,7 +514,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   border:     1.5px solid rgba(201, 168, 76, 0.4);
 }
 
-/* Fill hover hatás */
 .btn-hero::after {
   content:          '';
   position:         absolute;
@@ -554,8 +528,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 .btn-hero:hover { color: var(--ink); }
 .btn-hero:hover::after { transform: scaleX(1); }
 
-/* Border Beam — forgó gradient csík a border mentén (inspira-ui) */
-/* inspira-ui Border Beam — forgó fénypont a keret mentén */
 .border-beam {
   position:       absolute;
   inset:          0;
@@ -581,7 +553,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   opacity:    0.6;
 }
 
-/* Belső mask: csak a szél látszik, középső tartalom tiszta */
 .border-beam::after {
   content:    '';
   position:   absolute;
@@ -591,7 +562,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 
 .btn-hero:hover .border-beam { opacity: 0; }
 
-/* Szöveg a beam rétegek FELETT kell legyen */
 .btn-hero__text {
   position: relative;
   z-index:  3;
@@ -602,7 +572,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   100% { transform: rotate(360deg); }
 }
 
-/* Scroll hint alul */
 .scroll-hint {
   position:         absolute;
   bottom:           36px; left: 50%;
@@ -639,7 +608,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
 }
 
-/* Hero belépő animáció */
 @keyframes heroFadeUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -665,7 +633,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   font-style:  italic;
   color:       var(--gold);
   line-height: 1;
-  /* Szép text-shadow glow a számokon */
   text-shadow: 0 0 30px rgba(201, 168, 76, 0.25);
 }
 
@@ -707,7 +674,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 
 .about-img-wrap:hover .about-img { filter: sepia(0) contrast(1.1); }
 
-/* Elcsúsztatott dekor keret */
 .about-img-frame {
   position: absolute;
   top:      20px; left: 20px; right: -20px; bottom: -20px;
@@ -715,7 +681,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   z-index:  -1;
 }
 
-/* Arany év-badge */
 .about-badge {
   position:        absolute;
   bottom:          -20px; right: -20px;
@@ -766,7 +731,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 
 .section-header { text-align: center; margin-bottom: 56px; }
 
-/* Kis felső label */
 .section-eyebrow {
   font-family:    'Special Elite', serif;
   font-size:      10px;
@@ -798,7 +762,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 
 .section-title em { color: var(--gold); font-style: inherit; }
 
-/* Egyedi betű span-ek (JS hozza létre) */
 .letter-pullup .letter-char {
   display:         inline-block;
   opacity:         0;
@@ -810,7 +773,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 
 .letter-pullup.pulled .letter-char { opacity: 1; transform: translateY(0); }
 
-/* A szóközöket is tartsuk meg */
 .letter-pullup .letter-space { display: inline-block; width: 0.3em; }
 
 .section-sub {
@@ -825,7 +787,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   background: rgba(46, 58, 31, 0.1);
 }
 
-/* Tab navigáció */
 .menu-tabs {
   display:       flex;
   justify-content: center;
@@ -861,7 +822,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 .menu-tab.active::after { transform: scaleX(1); }
 .menu-tab:hover        { color: rgba(201, 168, 76, 0.8); }
 
-/* Tab panelek — csak az .active látszik */
 .menu-panel {
   display:               none;
   grid-template-columns: repeat(4, 1fr);
@@ -875,13 +835,11 @@ nav { display: flex; gap: 36px; align-items: center; }
   border:          1px solid rgba(201, 168, 76, 0.1);
   overflow:        hidden;
   position:        relative;
-  /* 3D tilt-hoz kell a perspective */
   transform-style: preserve-3d;
   transition:      border-color 0.3s, box-shadow 0.4s;
   will-change:     transform;
 }
 
-/* Glow shadow hover-re */
 .menu-card:hover {
   border-color: rgba(201, 168, 76, 0.3);
   box-shadow:   0 20px 60px rgba(0, 0, 0, 0.5),
@@ -973,7 +931,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 .spotlight-overlay {
   position:        absolute;
   inset:           0;
-  /* radial gradient középpontja a kurzorpozíció (JS-ből jön --x, --y) */
   background:      radial-gradient(
     300px circle at var(--x, 50%) var(--y, 50%),
     rgba(201, 168, 76, 0.08),
@@ -1010,7 +967,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   background: linear-gradient(105deg, rgba(26,26,14,0.97) 40%, rgba(46,58,31,0.45) 100%);
 }
 
-/* inspira-ui Border Beam — vékony forgó fénylő vonal a szekció keretén */
 .featured-beam-wrap {
   position:       absolute;
   inset:          0;
@@ -1019,8 +975,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   z-index:        1;
 }
 
-/* A tényleges beam: egy vékony forgó gradiens csík
-   SVG-alapú mask-kal elzárjuk a belső területet */
 .featured-beam {
   position:    absolute;
   inset:       0;
@@ -1136,7 +1090,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   z-index:  2;
 }
 
-/* Forgó gradient border (inspira-ui Gradient Button) */
 .btn-gradient__border {
   position:     absolute;
   inset:        0;
@@ -1170,7 +1123,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   to { --border-angle: 360deg; }
 }
 
-/* Fill hover */
 .btn-gradient::before {
   content:          '';
   position:         absolute;
@@ -1205,7 +1157,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   transition: border-color 0.3s, transform 0.4s var(--ease-out);
 }
 
-/* Top border beam hover-re (inspira-ui Glow Border) */
 .event-card::before {
   content:          '';
   position:         absolute;
@@ -1219,8 +1170,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 .event-card:hover::before    { transform: scaleX(1); }
 .event-card:hover            { border-color: rgba(201, 168, 76, 0.28); transform: translateY(-5px); }
 
-/* Glow overlay — inspira-ui Glowing Effect alapján
-   JS adja hozzá a pozíciót (mousemove a kártyán) */
 .event-card__glow {
   position:   absolute;
   inset:      0;
@@ -1236,7 +1185,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 
 .event-card:hover .event-card__glow { opacity: 1; }
 
-/* Nagy halvány napcikk háttér */
 .event-card__day {
   position:    absolute;
   top:         14px; right: 24px;
@@ -1304,7 +1252,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 
 .gallery-header { padding: 0 60px 48px; text-align: center; }
 
-/* Flex alapú expandable gallery */
 .gallery-strip {
   display:  flex;
   gap:      4px;
@@ -1318,7 +1265,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   transition: flex 0.6s var(--ease-out);
 }
 
-/* Hover-re kitágul */
 .gallery-item:hover { flex: 3; }
 
 .gallery-item img {
@@ -1335,7 +1281,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   filter:    sepia(0) saturate(1.1) brightness(1);
 }
 
-/* Alap overlay (gradient) */
 .gallery-item::after {
   content:    '';
   position:   absolute;
@@ -1388,7 +1333,6 @@ nav { display: flex; gap: 36px; align-items: center; }
   margin-bottom: 48px;
 }
 
-/* Nyitvatartás kártya */
 .hours-card {
   border:     1px solid rgba(201, 168, 76, 0.13);
   padding:    32px;
@@ -1420,7 +1364,6 @@ nav { display: flex; gap: 36px; align-items: center; }
 .hours-open   { color: var(--gold); font-weight: 600; }
 .hours-closed { color: rgba(245,237,216,0.25); font-style: italic; }
 
-/* Form */
 .form-title {
   font-family:   'Playfair Display', serif;
   font-size:     30px;
@@ -1469,10 +1412,8 @@ nav { display: flex; gap: 36px; align-items: center; }
   font-style:  italic;
 }
 
-/* Focus állapotban a border világosabb */
 .retro-input:focus { border-bottom-color: rgba(201, 168, 76, 0.4); }
 
-/* Animated underline (uiverse.io Input) */
 .input-line {
   display:          block;
   position:         absolute;
@@ -1485,10 +1426,8 @@ nav { display: flex; gap: 36px; align-items: center; }
   pointer-events:   none;
 }
 
-/* Input focus → vonal kihúzódik */
 .form-group:focus-within .input-line { transform: scaleX(1); }
 
-/* date input szín fix */
 input[type="date"] { color-scheme: dark; }
 
 .btn-glow {
@@ -1510,7 +1449,6 @@ input[type="date"] { color-scheme: dark; }
 .btn-glow:hover {
   background:  var(--gold-light);
   transform:   translateY(-2px);
-  /* Glow effect (uiverse.io Glowing Button) */
   box-shadow:  0 0 0 2px rgba(201, 168, 76, 0.3),
                0 0 20px 4px rgba(201, 168, 76, 0.25),
                0 0 50px 8px rgba(201, 168, 76, 0.1);
@@ -1527,7 +1465,6 @@ input[type="date"] { color-scheme: dark; }
 
 .btn-glow:hover .btn-glow__glow { opacity: 1; }
 
-/* Submit confirmation állapot */
 .btn-glow.submitted {
   background:  var(--olive-light);
   color:       var(--cream);
@@ -1650,7 +1587,6 @@ input[type="date"] { color-scheme: dark; }
   transform: translate(0);
 }
 
-/* Staggered delay osztályok */
 .delay-1 { transition-delay: 0.1s; }
 .delay-2 { transition-delay: 0.2s; }
 .delay-3 { transition-delay: 0.3s; }
@@ -1660,9 +1596,7 @@ input[type="date"] { color-scheme: dark; }
 .magnetic-btn {
   transition: transform 0.4s var(--ease-spring) !important;
 }
-/* ============================================================
-   PREFERS-REDUCED-MOTION — leállítja a nehéz animációkat
-   ============================================================ */
+
 @media (prefers-reduced-motion: reduce) {
   .aurora-blob     { animation: none; }
   .meteor          { animation: none; }
