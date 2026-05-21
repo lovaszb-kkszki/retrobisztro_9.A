@@ -56,7 +56,6 @@
     <div class="aurora-bg" aria-hidden="true">
       <div class="aurora-blob aurora-blob--1"></div>
       <div class="aurora-blob aurora-blob--2"></div>
-      <div class="aurora-blob aurora-blob--3"></div>
     </div>
 
     <!-- parallax scroll JS-ben -->
@@ -177,14 +176,14 @@
       <!-- Letter pullup cím, JS feldarabolja és betűnként animálja
            (inspira-ui Letter Pullup) -->
       <h2 class="section-title letter-pullup" data-pullup>
-        Ahol az idő <em>másképp telik</em>
+        Hely, ahol jó <em>lenni</em>
       </h2>
 
       <p class="about-text">
         1972-ben nyitottuk meg kapuinkat a pesti éjszakában, egy régi bérház pincehelyiségén. Akkor még nem tudtuk, hogy ez a hely több generáció otthona lesz.
       </p>
       <p class="about-text">
-        Kézzel válogatott italok, antik bútorok, élőzene szerdától szombatig. Nálunk minden pohárnak története van.
+        Kézzel válogatott italok, antik bútorok, élőzene szerdától szombatig. A bárosaink tudják a vendégeik nevét, a vendégek tudják, mit kérjenek. Ennyi az egész.
       </p>
       <p class="about-sig">- Kovács Péter, alapító</p>
     </div>
@@ -206,6 +205,7 @@
       <button class="menu-tab active" data-tab="drinks" role="tab" aria-selected="true" aria-controls="tab-drinks">Koktélok</button>
       <button class="menu-tab" data-tab="food" role="tab" aria-selected="false" aria-controls="tab-food">Falatok</button>
       <button class="menu-tab" data-tab="spirits" role="tab" aria-selected="false" aria-controls="tab-spirits">Tömény</button>
+      <button class="menu-tab" data-tab="extras" role="tab" aria-selected="false" aria-controls="tab-extras">Különlegességek</button>
     </div>
 
     <!-- ---- KOKTÉLOK ---- -->
@@ -408,6 +408,81 @@
         </div>
         <div class="spotlight-overlay" aria-hidden="true"></div>
       </article>
+
+    </div>
+
+    <!-- ---- KÜLÖNLEGESSÉGEK ---- -->
+    <!-- Lista formátum: alkoholmentes + meleg italok, "a többi a látogatóknak" -->
+    <div class="menu-panel menu-panel--list" id="tab-extras" role="tabpanel">
+
+      <div class="drink-list-col reveal">
+        <p class="drink-list-heading">Alkoholmentes italok</p>
+        <ul class="drink-list">
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Házi limonádé</span>
+            <span class="drink-list-item__desc">citrom, menta, szóda</span>
+            <span class="drink-list-item__price">890 Ft</span>
+          </li>
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Gyömbéres lemonade</span>
+            <span class="drink-list-item__desc">friss gyömbér, méz, citrom</span>
+            <span class="drink-list-item__price">990 Ft</span>
+          </li>
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Retro Iced Tea</span>
+            <span class="drink-list-item__desc">fekete tea, bodza, citromszelet</span>
+            <span class="drink-list-item__price">790 Ft</span>
+          </li>
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Mango Lassi</span>
+            <span class="drink-list-item__desc">mangó, joghurt, kardamom</span>
+            <span class="drink-list-item__price">1 100 Ft</span>
+          </li>
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Retro Mojito (0%)</span>
+            <span class="drink-list-item__desc">lime, menta, cukor, szóda</span>
+            <span class="drink-list-item__price">1 200 Ft</span>
+          </li>
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Bodza szirup + szóda</span>
+            <span class="drink-list-item__desc">házi bodza, lime, szénsavas víz</span>
+            <span class="drink-list-item__price">750 Ft</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="drink-list-col reveal delay-2">
+        <p class="drink-list-heading">Meleg italok &amp; szezonális</p>
+        <ul class="drink-list">
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Bécsi kávé</span>
+            <span class="drink-list-item__desc">dupla espresso, tejszínhab</span>
+            <span class="drink-list-item__price">890 Ft</span>
+          </li>
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Ír kávé</span>
+            <span class="drink-list-item__desc">kávé, ír whiskey, tejszín</span>
+            <span class="drink-list-item__price">2 100 Ft</span>
+          </li>
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Forralt bor</span>
+            <span class="drink-list-item__desc">vörösbor, fűszerek, citrom — szezonális</span>
+            <span class="drink-list-item__price">1 400 Ft</span>
+          </li>
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Hot Toddy</span>
+            <span class="drink-list-item__desc">whiskey, méz, citrom, forróvíz</span>
+            <span class="drink-list-item__price">1 800 Ft</span>
+          </li>
+          <li class="drink-list-item">
+            <span class="drink-list-item__name">Chai latte</span>
+            <span class="drink-list-item__desc">fűszeres tea, gőzölt tej</span>
+            <span class="drink-list-item__price">950 Ft</span>
+          </li>
+        </ul>
+        <!-- a többi ital csak személyesen kérdezhető, nem tesszük ki az oldalra -->
+        <p class="drink-list-note">Szezonális és házi különlegességeinkért kérdezzétek a bárosaokat - a lista ennél jóval hosszabb.</p>
+      </div>
 
     </div>
 
