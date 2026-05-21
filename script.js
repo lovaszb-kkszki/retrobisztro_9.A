@@ -1,18 +1,25 @@
 'use strict';
 
+const lowPerf = navigator.hardwareConcurrency <= 4;
+
 const rafKor = (() => {
   const feladatok = new Set();
+  let fut = false;
 
   function kor() {
     feladatok.forEach(fn => fn());
-    requestAnimationFrame(kor);
+    if (feladatok.size > 0) requestAnimationFrame(kor);
+    else fut = false;
   }
 
-  requestAnimationFrame(kor);
-
   return {
-    add: (fn) => feladatok.add(fn),
-    remove: (fn) => feladatok.delete(fn),
+    add: (fn) => {
+      feladatok.add(fn);
+      if (!fut) { fut = true; requestAnimationFrame(kor); }
+    },
+    remove: (fn) => {
+      feladatok.delete(fn);
+    },
   };
 })();
 
@@ -24,15 +31,19 @@ function egyeniKurzor() {
 
   let egerX = -100, egerY = -100;
   let gyuruX = -100, gyuruY = -100;
+  let mozdult = false;
 
   document.addEventListener('mousemove', (e) => {
     egerX = e.clientX;
     egerY = e.clientY;
     kursorPont.style.transform = `translate(${egerX - 5}px, ${egerY - 5}px)`;
+    mozdult = true;
   });
 
   // lerp faktor: 0.12
   rafKor.add(() => {
+    if (!mozdult && Math.abs(egerX - gyuruX) < 0.1 && Math.abs(egerY - gyuruY) < 0.1) return;
+    mozdult = false;
     const dx = egerX - gyuruX;
     const dy = egerY - gyuruY;
     if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
@@ -52,12 +63,12 @@ function egyeniKurzor() {
   });
 
   document.addEventListener('mouseleave', () => {
-    kursorPont.style.opacity  = '0';
+    kursorPont.style.opacity = '0';
     kursorGyuru.style.opacity = '0';
   });
 
   document.addEventListener('mouseenter', () => {
-    kursorPont.style.opacity  = '1';
+    kursorPont.style.opacity = '1';
     kursorGyuru.style.opacity = '1';
   });
 }
@@ -87,12 +98,21 @@ function headerScroll() {
 }
 
 function parallaxHero() {
+  if (lowPerf) return;
+
   const fotó = document.getElementById('heroPhoto');
   if (!fotó) return;
 
+  let ticking = false;
+
   window.addEventListener('scroll', () => {
-    const eltolas = window.scrollY * 0.28;
-    fotó.style.transform = `scale(1.1) translateY(${eltolas}px)`;
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const eltolas = window.scrollY * 0.22;
+      fotó.style.transform = `scale(1.08) translateY(${eltolas}px)`;
+      ticking = false;
+    });
   }, { passive: true });
 }
 
@@ -100,7 +120,7 @@ function meteorok() {
   const tároló = document.getElementById('meteorsContainer');
   if (!tároló) return;
 
-  const METEOR_DARAB = 14;
+  const METEOR_DARAB = lowPerf ? 6 : 10;
 
   for (let i = 0; i < METEOR_DARAB; i++) {
     const meteor = document.createElement('div');
@@ -108,10 +128,10 @@ function meteorok() {
 
     meteor.style.cssText = `
       left: ${Math.random() * 100}%;
-      --duration: ${2.5 + Math.random() * 2.5}s;
-      --delay: ${Math.random() * 8}s;
-      height: ${50 + Math.random() * 70}px;
-      opacity: ${0.4 + Math.random() * 0.5};
+      --duration: ${3 + Math.random() * 3}s;
+      --delay: ${Math.random() * 10}s;
+      height: ${40 + Math.random() * 60}px;
+      opacity: ${0.35 + Math.random() * 0.4};
     `;
 
     tároló.appendChild(meteor);
@@ -130,11 +150,12 @@ function scrambleText() {
 
   function scrambleElem(elem, kesleltetesMs) {
     const vegsoSzoveg = elem.textContent;
+    const FRAMEK = lowPerf ? 20 : 28;
     let frame = 0;
 
     setTimeout(() => {
       const intervallum = setInterval(() => {
-        const megfejtettHossz = Math.floor((frame / 30) * vegsoSzoveg.length);
+        const megfejtettHossz = Math.floor((frame / FRAMEK) * vegsoSzoveg.length);
 
         elem.textContent = vegsoSzoveg
           .split('')
@@ -147,11 +168,11 @@ function scrambleText() {
 
         frame++;
 
-        if (frame > 30) {
+        if (frame > FRAMEK) {
           clearInterval(intervallum);
           elem.textContent = vegsoSzoveg;
         }
-      }, 40);
+      }, 42);
     }, kesleltetesMs);
   }
 
@@ -164,8 +185,8 @@ function typewriter() {
   const elem = document.getElementById('heroSubtitle');
   if (!elem) return;
 
-  const SZOVEG    = 'Klasszikus hangulat · Kézműves italok';
-  const KARAKTER_IDOS = 55;
+  const SZOVEG = 'Klasszikus hangulat · Kézműves italok';
+  const KARAKTER_IDOS = lowPerf ? 40 : 55;
 
   let i = 0;
 
@@ -214,7 +235,7 @@ function letterPullup() {
             betű.className = 'letter-char';
             betű.textContent = char;
             betű.style.transitionDelay = `${delay.current}ms`;
-            delay.current += 28;
+            delay.current += 24;
             szoWrap.appendChild(betű);
           });
 
@@ -282,9 +303,9 @@ function countUp() {
       const kezdes   = performance.now();
 
       function ticker(most) {
-        const eltelt   = most - kezdes;
-        const haladás  = Math.min(eltelt / ido, 1);
-        const simítva  = 1 - Math.pow(1 - haladás, 3); // easeOutCubic
+        const eltelt  = most - kezdes;
+        const haladás = Math.min(eltelt / ido, 1);
+        const simítva = 1 - Math.pow(1 - haladás, 3);
         b.target.textContent = Math.round(simítva * celErtek);
         if (haladás < 1) requestAnimationFrame(ticker);
       }
@@ -297,6 +318,7 @@ function countUp() {
 }
 
 function spotlightKartyak() {
+  if (lowPerf) return;
   const kartyak = document.querySelectorAll('.spotlight-card');
   if (!kartyak.length) return;
 
@@ -318,10 +340,11 @@ function spotlightKartyak() {
 }
 
 function tiltKartyak() {
+  if (lowPerf) return;
   const kartyak = document.querySelectorAll('[data-tilt]');
   if (!kartyak.length) return;
 
-  const TILT_MAX  = 8;
+  const TILT_MAX  = 7;
   const TILT_ALAP = 600;
 
   kartyak.forEach(kartya => {
@@ -355,6 +378,7 @@ function tiltKartyak() {
 }
 
 function magnetikusGombok() {
+  if (lowPerf) return;
   const gombok = document.querySelectorAll('[data-magnetic]');
   if (!gombok.length) return;
 
@@ -421,7 +445,7 @@ function menuTabok() {
       const ujKartyak = celpanel.querySelectorAll('.reveal');
       ujKartyak.forEach((kartya, i) => {
         kartya.classList.remove('visible');
-        setTimeout(() => kartya.classList.add('visible'), i * 80 + 60);
+        setTimeout(() => kartya.classList.add('visible'), i * 75 + 50);
       });
     });
   });
@@ -430,12 +454,13 @@ function menuTabok() {
   if (elsoPanel) {
     const elsőKartyak = elsoPanel.querySelectorAll('.reveal');
     elsőKartyak.forEach((k, i) => {
-      setTimeout(() => k.classList.add('visible'), i * 100 + 300);
+      setTimeout(() => k.classList.add('visible'), i * 90 + 300);
     });
   }
 }
 
 function glowKartyak() {
+  if (lowPerf) return;
   const kartyak = document.querySelectorAll('.event-card');
   if (!kartyak.length) return;
 
@@ -468,7 +493,7 @@ function foglalasForm() {
   gomb.addEventListener('click', () => {
     if (gomb.classList.contains('submitted')) return;
     gomb.classList.add('submitted');
-    szovegElem.textContent = 'Elküldve — Hamarosan jelentkezünk!';
+    szovegElem.textContent = 'Köszönjük! Hamarosan keresünk.';
     setTimeout(() => {
       gomb.classList.remove('submitted');
       szovegElem.textContent = EREDETI_SZOVEG;
@@ -476,14 +501,11 @@ function foglalasForm() {
   });
 }
 
-function galeriaSzekció() {
-  console.log('%cRetro Bár betöltve!', 'color: #c9a84c; font-size: 14px; font-weight: bold;');
-}
-
 function smoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
       const celId = link.getAttribute('href');
+      if (celId === '#') return;
       const celElem = document.querySelector(celId);
       if (!celElem) return;
       e.preventDefault();
@@ -515,5 +537,4 @@ document.addEventListener('DOMContentLoaded', () => {
   glowKartyak();
 
   foglalasForm();
-  galeriaSzekció();
 });
