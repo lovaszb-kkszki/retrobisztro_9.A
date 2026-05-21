@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retro Bár — Budapest</title>
+  <title>Retro Bár - Itt vagyunk!</title>
 
   <!--
-    RETRO BÁR — index.html
+    Szia!
     Keresési kulcsok: #header #hero #stats #about #menu #featured #events #gallery #reservation #footer
     JS effektek: data-scramble (scramble), data-pullup (letter pullup), data-tilt (3D tilt), data-magnetic (magnetic)
   -->
@@ -18,20 +18,18 @@
 </head>
 <body>
 
-  <!-- ZAJSZŰRŐ OVERLAY — CSS noise textúra, pozíció: fixed top -->
   <div class="noise-overlay" aria-hidden="true"></div>
 
-  <!-- EGYÉNI KURZOR — .cursor a kis pont, .cursor-ring a lassabb gyűrű -->
+  <!-- .cursor a kis pont, .cursor-ring a lassabb gyűrű lenne -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
-  <!-- SCROLL PROGRESS BAR — oldal tetején egy vékony arany csík -->
+  <!-- oldal tetején egy vékony arany csík -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-  <!-- HEADER — fixed tetején, scrollra frosted glass-be vált -->
+  <!-- a header fixed tetején, scrollra frosted glass-be vált -->
   <header class="site-header" id="header" role="banner">
     <a class="logo-mark" href="#">
-      <!-- Logó embléma — kör alakú, hover-re forog (CSS transition) -->
       <div class="logo-emblem">
         <img src="./retro.png" alt="Retro Bár logó">
       </div>
@@ -53,7 +51,7 @@
   <!-- HERO SZEKCIÓ -->
   <section class="hero" id="hero" aria-label="Bevezető">
 
-    <!-- Aurora háttér — inspira-ui Aurora Background alapján
+    <!-- Aurora háttér: inspira-ui Aurora Background alapján
          Forgó conic-gradient + blur, CSS animációkkal -->
     <div class="aurora-bg" aria-hidden="true">
       <div class="aurora-blob aurora-blob--1"></div>
@@ -61,39 +59,39 @@
       <div class="aurora-blob aurora-blob--3"></div>
     </div>
 
-    <!-- Háttérkép réteggel — parallax scroll JS-ben -->
+    <!-- parallax scroll JS-ben -->
     <div class="hero-photo" id="heroPhoto" aria-hidden="true"></div>
     <div class="hero-photo-overlay" aria-hidden="true"></div>
 
-    <!-- Keret + sarkok — CSS border rétegek -->
+    <!-- CSS border rétegek -->
     <div class="hero-frame" aria-hidden="true"></div>
     <span class="corner corner--tl" aria-hidden="true"></span>
     <span class="corner corner--tr" aria-hidden="true"></span>
     <span class="corner corner--bl" aria-hidden="true"></span>
     <span class="corner corner--br" aria-hidden="true"></span>
 
-    <!-- Meteor részecskék — inspira-ui Meteors alapján
+    <!-- Meteor részecskék inspira-ui Meteors alapján
          JS generálja dinamikusan (meteorok()) -->
     <div class="meteors-container" id="meteorsContainer" aria-hidden="true"></div>
 
     <!-- Hero fő tartalom -->
     <div class="hero-content">
 
-      <!-- Felső badge — animált vonal -->
+      <!-- Felső badge, animált vonal -->
       <div class="hero-eyebrow" aria-label="1972 óta">
         <span class="eyebrow-line" aria-hidden="true"></span>
         <span class="eyebrow-text">1972 óta</span>
         <span class="eyebrow-line" aria-hidden="true"></span>
       </div>
 
-      <!-- FŐ CÍM — JS scramble animáció indul rá (reactbits Encrypted Text)
+      <!-- FŐ CÍM: JS scramble animáció indul rá (reactbits Encrypted Text)
            data-scramble jelöli, hogy ezt kell scramble-ölni -->
       <h1 class="hero-title">
         <span class="hero-title__accent" data-scramble>Retro</span><br>
         <span class="hero-title__plain" data-scramble>Bár</span>
       </h1>
 
-      <!-- Alcím — typewriter effekt JS-ben -->
+      <!-- Alcím, typewriter effekt JS-ben -->
       <p class="hero-subtitle" id="heroSubtitle" aria-live="polite"></p>
 
       <div class="hero-divider" aria-hidden="true"></div>
@@ -116,7 +114,7 @@
         </div>
       </div>
 
-      <!-- Fő CTA gomb — magnetikus + gradient border beam (uiverse.io / inspira-ui) -->
+      <!-- Fő gomb magnetikus + gradient border beam (uiverse.io / inspira-ui) -->
       <a href="#reservation" class="btn-hero magnetic-btn" data-magnetic aria-label="Asztalt foglalok">
         <span class="btn-hero__text">Asztalt foglalok</span>
         <!-- Border beam animáció rétege (inspira-ui Border Beam) -->
@@ -124,7 +122,6 @@
       </a>
     </div>
 
-    <!-- Scroll jelző animáció alul -->
     <div class="scroll-hint" aria-hidden="true">
       <span class="scroll-hint__text">Görgess</span>
       <span class="scroll-hint__line"></span>
@@ -132,7 +129,7 @@
 
   </section>
 
-  <!-- STATS SÁV — számok felszámolása JS-ben (CountUp) -->
+  <!-- számok felszámolása JS-ben (CountUp) -->
   <div class="stats-bar" aria-label="Statisztikák">
     <div class="stat-item reveal" aria-label="52 év tapasztalat">
       <span class="stat-number" data-target="52" aria-live="polite">0</span>
@@ -156,7 +153,7 @@
   </div>
 
   <!-- ============================================================
-       RÓLUNK SZEKCIÓ — kép + szöveg, reveal-left / reveal-right
+       RÓLUNK SZEKCIÓ: kép + szöveg, reveal-left / reveal-right
        ============================================================ -->
   <section class="about-section" aria-label="Rólunk">
     <div class="about-img-wrap reveal-left">
@@ -166,9 +163,8 @@
         class="about-img"
         loading="lazy"
       >
-      <!-- Elcsúsztatott keret effekt (CSS box-shadow réteg) -->
+      <!-- CSS box-shadow réteg -->
       <div class="about-img-frame" aria-hidden="true"></div>
-      <!-- Arany badge, abszolút pozícionált jobb alsó sarokban -->
       <div class="about-badge" aria-hidden="true">
         <span class="about-badge__year">52</span>
         <span class="about-badge__label">év</span>
@@ -176,10 +172,9 @@
     </div>
 
     <div class="about-content reveal-right">
-      <!-- Section eyebrow — kis felső label -->
       <p class="section-eyebrow">Rólunk</p>
 
-      <!-- Letter pullup cím — JS feldarabolja és betűnként animálja
+      <!-- Letter pullup cím, JS feldarabolja és betűnként animálja
            (inspira-ui Letter Pullup) -->
       <h2 class="section-title letter-pullup" data-pullup>
         Ahol az idő <em>másképp telik</em>
@@ -231,7 +226,7 @@
             <span class="menu-card__badge">Ház ajánlat</span>
           </div>
         </div>
-        <!-- Spotlight overlay réteg — JS mousemove-ra mozgatja (inspira-ui Card Spotlight) -->
+        <!-- Spotlight overlay réteg, JS mousemove-ra mozgatja (inspira-ui Card Spotlight) -->
         <div class="spotlight-overlay" aria-hidden="true"></div>
       </article>
 
@@ -283,6 +278,7 @@
     </div>
 
     <!-- ---- FALATOK ---- -->
+    <!-- borzalmas, egy AI-t kértem meg hogy keressen képeket -->
     <div class="menu-panel" id="tab-food" role="tabpanel">
 
       <article class="menu-card spotlight-card" data-tilt aria-label="Hideg tál 2 főre">
@@ -417,13 +413,12 @@
 
   </section>
 
-  <!-- KIEMELT SZEKCIÓ — "1972" házi koktél -->
+  <!-- KIEMELT SZEKCIÓ -->
   <section class="featured-section" aria-label="Ház különlegessége">
-    <!-- Háttérkép réteg -->
     <div class="featured-photo" aria-hidden="true"></div>
     <div class="featured-overlay" aria-hidden="true"></div>
 
-    <!-- Border Beam — forgó conic-gradient keret (inspira-ui Border Beam) -->
+    <!-- forgó conic-gradient keret (inspira-ui Border Beam) -->
     <div class="featured-beam-wrap" aria-hidden="true">
       <div class="featured-beam"></div>
     </div>
@@ -446,16 +441,15 @@
         <li>Füstölt tengeri só, szervírozási kő</li>
       </ul>
 
-      <!-- Gradient Button — inspira-ui Gradient Button / uiverse.io animált gomb -->
+      <!-- inspira-ui Gradient Button / uiverse.io animált gomb -->
       <a href="#menu" class="btn-gradient magnetic-btn" data-magnetic aria-label="Teljes menü megtekintése">
         <span class="btn-gradient__inner">Teljes menü</span>
-        <!-- Forgó conic-gradient határ (inspira-ui Gradient Button) -->
         <span class="btn-gradient__border" aria-hidden="true"></span>
       </a>
     </div>
   </section>
 
-  <!-- PROGRAMOK SZEKCIÓ — heti estek -->
+  <!-- PROGRAMOK SZEKCIÓ -->
   <section class="events-section" id="events" aria-label="Heti programok">
 
     <div class="section-header reveal">
@@ -475,7 +469,7 @@
         <h3 class="event-card__title">Jazz Éjszaka</h3>
         <p class="event-card__desc">Helyi jazz kvartett játszik a bárban. Félhomály, jó ital, tiszta hang.</p>
         <p class="event-card__time">20:00 &ndash; 23:00</p>
-        <!-- Glow border — CSS gradient border animáció (inspira-ui Glow Border) -->
+        <!-- CSS gradient border animáció (inspira-ui Glow Border) -->
         <div class="event-card__glow" aria-hidden="true"></div>
       </article>
 
@@ -500,7 +494,7 @@
     </div>
   </section>
 
-  <!-- GALÉRIA — expandable hover (inspira-ui Expandable Gallery) -->
+  <!-- GALÉRIA: expandable hover (inspira-ui Expandable Gallery) -->
   <section class="gallery-section" id="gallery" aria-label="Képgaléria">
 
     <div class="gallery-header reveal">
@@ -510,7 +504,7 @@
       </h2>
     </div>
 
-    <!-- Expandable Gallery — hover-re tágul (inspira-ui Expandable Gallery) -->
+    <!-- hover-re tágul (inspira-ui Expandable Gallery) -->
     <div class="gallery-strip" role="list" aria-label="Galéria képek">
 
       <div class="gallery-item" role="listitem" aria-label="Bár belső">
@@ -541,7 +535,7 @@
     </div>
   </section>
 
-  <!-- FOGLALÁS SZEKCIÓ — form + nyitvatartás -->
+  <!-- FOGLALÁS SZEKCIÓ -->
   <section class="reservation-section" id="reservation" aria-label="Asztalfoglalás">
 
     <div class="reservation-info reveal-left">
@@ -579,7 +573,7 @@
     <div class="reservation-form reveal-right">
       <h3 class="form-title">Asztalfoglalás</h3>
 
-      <!-- Animált underline inputok (uiverse.io Input stílusból átvéve) -->
+      <!-- underline inputok (uiverse.io Input stílusból átvéve) -->
       <div class="form-row">
         <div class="form-group">
           <label class="form-label" for="lastName">Vezéknév</label>
@@ -618,7 +612,7 @@
         <span class="input-line" aria-hidden="true"></span>
       </div>
 
-      <!-- Glowing Submit Button — uiverse.io glow button alapján -->
+      <!-- uiverse.io glow button alapján -->
       <button type="button" class="btn-glow magnetic-btn" data-magnetic id="submitBtn" aria-label="Foglalás elküldése">
         <span class="btn-glow__text">Foglalás Küldése</span>
         <span class="btn-glow__glow" aria-hidden="true"></span>
@@ -628,7 +622,7 @@
   </section>
 
   <!-- ============================================================
-       FOOTER — egyszerű, arány + kontakt
+       FOOTER
        ============================================================ -->
   <footer class="site-footer" role="contentinfo">
     <div class="footer-top">
@@ -656,7 +650,7 @@
 
       <address class="footer-contact">
         <p class="footer-col-title">Elérhetőség</p>
-        <p>Budapest, VII. kerület<br>Dohány utca 42.</p>
+        <p>Budapest, 199. kerület<br>Dohány utca 42.</p>
         <p><a href="tel:+3612345678">+36 1 234 5678</a></p>
         <p><a href="mailto:info@retrobar.hu">info@retrobar.hu</a></p>
       </address>
